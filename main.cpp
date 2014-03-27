@@ -124,46 +124,155 @@ void SSLServer(){
 }
 
 void NewDBS(string UserName, string Password){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    NewDatabase.close();
 }
 
-void DBSAddMember(string UserName, string Password){
-
+void DBSAddMember(string UserName, string Password, string Handle){
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec("INSERT INTO DBNames (UserName, Password, Handle) "
+                "VALUES (UserName, Password, Handle)");
+    NewDatabase.close();
 }
 
 void DBSNewHandle(string UserName, string Password, string Handle){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec("INSERT INTO DBNames (UserName, Password, Handle) "
+                "VALUES (UserName, Handle)");
+    NewDatabase.close();
 }
 
 void DBSEditHandle(string OldHandle, string NewHandle){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec("Update DBNames"
+               "Set Handle= ’NewHandle’"
+               "Where Handle = ‘OldHandle’");
+    NewDatabase.close();
 }
 
 
 void DBSEditPassword(string Username, string OldPassword, string NewPassword){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Update DBNames"
+    "Set Password =’NewPassword’"
+    "Where Password=’OldPassword’ AND Username = 'Username'");
+    NewDatabase.close();
 }
 
 void DBSDeleteUser(string Username, string Password){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Delete from DBNames(UID, UName, Password, Handle)"
+                "Where UName = ‘Username’ AND Password = 'Password'");
+    NewDatabase.close();
 }
 
 void DBSDeleteHandle(string Username, string Handle){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Delete from DBNames(Handle)"
+                "Where UName = ‘Username’ AND Handle = 'Handle'");
+    NewDatabase.close();
 }
 
-void DBSAddMessage(string Handle, string Message){
-
+void DBSAddMessage(string Handle, string Message, string StrTStmp){
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Insert into DBMsg(Handle, Message, Timestamp)"
+                "Values(Handle, Message, StrTStmp)");
+    NewDatabase.close();
 }
 
-void DBSDeleteMessage(string Handle, string Message){
-
+void DBSDeleteMessage(string Handle, string StrTStmp){
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Delete from DBMsg(Handle, Message, Timestamp)"
+                "Where Handle = ‘Handle’ AND Timestamp = ‘StrTStmp’");
+    NewDatabase.close();
 }
 
 void DBSDeleteAllMSG(string Handle){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Delete from DBMsg(Handle, Message, Timestamp)"
+                "Where Handle = ‘Handle’");
+    NewDatabase.close();
 }
 
 void DBSRetrieveMSG(string Handle, string Password){
-
+    QSqlDatabase NewDatabase;
+    NewDatabase.setHostName("mysql9.000webhost.com");
+    NewDatabase.setUserName("a1014897_Crypto");
+    NewDatabase.setPassword("1lovefr4nk");
+    NewDatabase.setDatabaseName("a1014897_Crypto");
+    NewDatabase.setPort(1433);
+    bool ok = NewDatabase.open();
+    QSqlQuery query(NewDatabase);
+    query.exec ("Select (Handle, Message, Timestamp) from DBMsg"
+                "Where Handle = ‘Handle’ AND Password = 'Password'");
+    NewDatabase.close();
 }
