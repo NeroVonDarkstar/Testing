@@ -14,6 +14,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSsl>
+#include <QHostAddress>
 
 //A little something added to gain access to standard libraries
 using namespace std;
@@ -47,7 +48,13 @@ int main(int argc, char *argv[])
         SSLServer();
     }
     else if(exitclause == "C"){
-        SSLStarter();
+        cout << "Please enter the Address you wish to connect to: " << endl;
+        string HostAddress = "";
+        cin >> HostAddress;
+        cout << "Please enter the port number, type 443 for the default port: " << endl;
+        int Port = 0;
+        cin >> Port;
+        SSLStarter(HostAddress, Port);
     }
     else{
         string strDBSChoice = " ";
@@ -82,17 +89,25 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-void SSLStarter(){
-        string websiteentry = " ";
-        cout << "Select the website to connect to: " << endl;
-        cin >> websiteentry;
-        cout << "Connecting... Please wait." << endl;
-        QSslSocket socket;
-        socket.connectToHostEncrypted("www.paypal.com", 443);
-        socket.write("GET / HTTP/1.0rnrn");
-        while (socket.waitForReadyRead())
-            qDebug() << socket.readAll().data();
-        cout << "Connection established" << endl;
+bool SSLStarter(string Address, int Port){
+    if (!QSslSocket.supportsSsl()) {
+          qDebug() << "No SSL support!";
+          return false;
+       }
+
+       QHostAddress HostAddress;
+       HostAddress.setAddress(Address);
+
+       QSslSocket Socket;
+
+       Socket.connectToHostEncrypted(Address, Port);
+
+       if(!Socket.waitForEncrypted()) {
+          return false;
+       }
+       cout << "Connection established" << endl;
+
+       return true;
 }
 
 void SSLServer(){
