@@ -173,7 +173,7 @@ void DBSNewHandle(string UserName, string Password, string Handle){
     bool ok = NewDatabase.open();
     QSqlQuery query(NewDatabase);
     query.exec("INSERT INTO DBNames (UserName, Password, Handle) "
-                "VALUES (UserName, Handle)");
+                "VALUES (%UserName, %Handle)");
     NewDatabase.close();
 }
 
