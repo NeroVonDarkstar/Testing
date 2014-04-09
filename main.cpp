@@ -19,7 +19,7 @@
 //A little something added to gain access to standard libraries
 using namespace std;
 
-void SSLStarter();
+bool SSLStarter();
 void SSLServer();
 void NewDBS();
 void DBSAddMember();
@@ -61,17 +61,33 @@ int main(int argc, char *argv[])
         cout << "Press A to Add to the database, D to delete or V to view: " << endl;
         cin >> strDBSChoice;
         if (strDBSChoice == "A"){
-            cout << "Starting new database" << endl;
-            QSqlDatabase NewDatabase;
-            NewDatabase.setHostName("mysql9.000webhost.com");
-            NewDatabase.setUserName("a1014897_Crypto");
-            NewDatabase.setPassword("1lovefr4nk");
-            NewDatabase.setDatabaseName("a1014897_Crypto");
-            NewDatabase.setPort(1433);
-            bool ok = NewDatabase.open();
-            QSqlQuery query(NewDatabase);
-            query.exec("INSERT INTO Messages (UserID, Username, Time, Date, Message) "
-                        "VALUES (1, 'Matt', 00:00, 01/01/14, 'This is a test')");
+            {
+                cout << "Starting new database" << endl;
+                QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+                string ubuffer = "";
+                string pbuffer = "";
+                db.setConnectOptions();
+                db.setDatabaseName("test");
+                db.setHostName("ephesus.cs.cf.ac.uk");
+                db.setPort(3306);
+                cout << "Please enter a username" << endl;
+                cin >> ubuffer;
+                QString username = QString::fromStdString(ubuffer);
+                db.setUserName(username);
+                cout << "Please enter a password" << endl;
+                cin >> pbuffer;
+                QString password = QString::fromStdString(pbuffer);
+                db.setPassword(password);
+                bool x = db.open();
+                if (x == true){
+                    cout << "Connection successful" << endl;
+                    addMember();
+                }
+                else{
+                    cout << "not yet jim" << endl;
+                }
+                return a.exec();
+            }
         }
         else if (strDBSChoice == "D"){
 
@@ -90,11 +106,6 @@ int main(int argc, char *argv[])
 }
 
 bool SSLStarter(string Address, int Port){
-    if (!QSslSocket.supportsSsl()) {
-          qDebug() << "No SSL support!";
-          return false;
-       }
-
        QHostAddress HostAddress;
        HostAddress.setAddress(Address);
 
@@ -138,43 +149,61 @@ void SSLServer(){
 
 }
 
-void NewDBS(string UserName, string Password){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    NewDatabase.close();
+void DBSAddMember(string UserName, string Password){
+    int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec(("insert into persons values(NULL,'%1','%2')")
+                    .arg(UserName).arg(Password));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+
+                    }
 }
 
-void DBSAddMember(string UserName, string Password, string Handle){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec("INSERT INTO DBNames (UserName, Password, Handle) "
-                "VALUES (UserName, Password, Handle)");
-    NewDatabase.close();
+void DBSNewHandle(string UserID, string Handle){
+    int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec(("insert into handles values(NULL,'%1','%2')")
+                    .arg(UserID).arg(Handle));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+
+                    }
 }
 
-void DBSNewHandle(string UserName, string Password, string Handle){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec("INSERT INTO DBNames (UserName, Password, Handle) "
-                "VALUES (%UserName, %Handle)");
-    NewDatabase.close();
+void DBSAddMessage(string handleID, string message){
+    int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec(("insert into handles values(NULL,'%1','%2')")
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+
+                    }
 }
 
 void DBSEditHandle(string OldHandle, string NewHandle){
@@ -233,20 +262,6 @@ void DBSDeleteHandle(string Username, string Handle){
     QSqlQuery query(NewDatabase);
     query.exec ("Delete from DBNames(Handle)"
                 "Where UName = ‘Username’ AND Handle = 'Handle'");
-    NewDatabase.close();
-}
-
-void DBSAddMessage(string Handle, string Message, string StrTStmp){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Insert into DBMsg(Handle, Message, Timestamp)"
-                "Values(Handle, Message, StrTStmp)");
     NewDatabase.close();
 }
 
