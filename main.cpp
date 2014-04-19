@@ -155,7 +155,7 @@ void DBSAddMember(string UserName, string Password){
         if (db.isOpen())
                     {
                     QSqlQuery query;
-                    ret = query.exec(("insert into persons values(NULL,'%1','%2')")
+                    ret = query.exec("insert into persons values(NULL,'%1','%2')");
                     .arg(UserName).arg(Password));
 
                     //Get database given autoincrement value
@@ -164,7 +164,6 @@ void DBSAddMember(string UserName, string Password){
                         newId = query.lastInsertId().toInt();
                         cout << newId << endl;
                         }
-
                     }
 }
 
@@ -174,7 +173,7 @@ void DBSNewHandle(string UserID, string Handle){
         if (db.isOpen())
                     {
                     QSqlQuery query;
-                    ret = query.exec(("insert into handles values(NULL,'%1','%2')")
+                    ret = query.exec("insert into handles values(NULL,'%1','%2')");
                     .arg(UserID).arg(Handle));
 
                     //Get database given autoincrement value
@@ -193,7 +192,7 @@ void DBSAddMessage(string handleID, string message){
         if (db.isOpen())
                     {
                     QSqlQuery query;
-                    ret = query.exec(("insert into handles values(NULL,'%1','%2')")
+                    ret = query.exec("insert into handles values(NULL,'%1','%2')");
                     .arg(handleID).arg(message));
 
                     //Get database given autoincrement value
@@ -207,102 +206,133 @@ void DBSAddMessage(string handleID, string message){
 }
 
 void DBSEditHandle(string OldHandle, string NewHandle){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec("Update DBNames"
-               "Set Handle= ’NewHandle’"
-               "Where Handle = ‘OldHandle’");
-    NewDatabase.close();
-}
+    int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Update DBNames Set Handle= ’%1’ Where Handle = ‘%2’");
+                    .arg(handleID).arg(message));
 
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+
+                    }
+	}
 
 void DBSEditPassword(string Username, string OldPassword, string NewPassword){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Update DBNames"
-    "Set Password =’NewPassword’"
-    "Where Password=’OldPassword’ AND Username = 'Username'");
-    NewDatabase.close();
-}
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Update DBNames Set Password =’%3' Where Password=’%2’ AND Username = '%1'");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
 
 void DBSDeleteUser(string Username, string Password){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Delete from DBNames(UID, UName, Password, Handle)"
-                "Where UName = ‘Username’ AND Password = 'Password'");
-    NewDatabase.close();
-}
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Delete from DBNames(UID, UName, Password, Handle Where UName = ‘%1’ AND Password = '%2'");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
+
 
 void DBSDeleteHandle(string Username, string Handle){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Delete from DBNames(Handle)"
-                "Where UName = ‘Username’ AND Handle = 'Handle'");
-    NewDatabase.close();
-}
+	
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Delete from DBNames(Handle) Where UName = ‘%1’ AND Handle = '%2'");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
 
 void DBSDeleteMessage(string Handle, string StrTStmp){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Delete from DBMsg(Handle, Message, Timestamp)"
-                "Where Handle = ‘Handle’ AND Timestamp = ‘StrTStmp’");
-    NewDatabase.close();
-}
+
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Delete from DBMsg(Handle, Message, Timestamp) Where Handle = ‘%1’ AND Timestamp = ‘%2’");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
 
 void DBSDeleteAllMSG(string Handle){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Delete from DBMsg(Handle, Message, Timestamp)"
-                "Where Handle = ‘Handle’");
-    NewDatabase.close();
-}
+
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Delete from DBMsg(Handle, Message, Timestamp) Where Handle = ‘%1’");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
 
 void DBSRetrieveMSG(string Handle, string Password){
-    QSqlDatabase NewDatabase;
-    NewDatabase.setHostName("mysql9.000webhost.com");
-    NewDatabase.setUserName("a1014897_Crypto");
-    NewDatabase.setPassword("1lovefr4nk");
-    NewDatabase.setDatabaseName("a1014897_Crypto");
-    NewDatabase.setPort(1433);
-    bool ok = NewDatabase.open();
-    QSqlQuery query(NewDatabase);
-    query.exec ("Select (Handle, Message, Timestamp) from DBMsg"
-                "Where Handle = ‘Handle’ AND Password = 'Password'");
-    NewDatabase.close();
-}
+
+	int newId = -1;
+    bool ret = false;
+        if (db.isOpen())
+                    {
+                    QSqlQuery query;
+                    ret = query.exec("Select (Handle, Message, Timestamp) from DBMsg Where Handle = ‘%1’ AND Password = '%2'");
+                    .arg(handleID).arg(message));
+
+                    //Get database given autoincrement value
+                    if (ret)
+                    {
+                        newId = query.lastInsertId().toInt();
+                        cout << newId << endl;
+                        }
+                    }
+		}
